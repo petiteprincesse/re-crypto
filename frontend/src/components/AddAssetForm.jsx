@@ -9,27 +9,27 @@ import {
   Button,
   DatePicker,
   Result,
-} from "antd";
-import { useState, useRef } from "react";
-import { useCrypto } from "../context/crypto-context";
-import CoinInfo from "./CoinInfo";
+} from 'antd'
+import { useState, useRef } from 'react'
+import { useCrypto } from '../context/crypto-context'
+import CoinInfo from './CoinInfo'
 
 const validateMessages = {
-  required: "${label} is required!",
+  required: '${label} is required!',
   types: {
-    number: "${label} in not valid number",
+    number: '${label} in not valid number',
   },
   number: {
-    range: "${label} must be between ${min} and ${max}",
+    range: '${label} must be between ${min} and ${max}',
   },
-};
+}
 
 export default function AddAssetForm({ onClose }) {
-  const [form] = Form.useForm();
-  const { crypto, addAsset } = useCrypto();
-  const [coin, setCoin] = useState(null);
-  const [submitted, setSubmitted] = useState(false);
-  const assetRef = useRef();
+  const [form] = Form.useForm()
+  const { crypto, addAsset } = useCrypto()
+  const [coin, setCoin] = useState(null)
+  const [submitted, setSubmitted] = useState(false)
+  const assetRef = useRef()
 
   if (submitted) {
     return (
@@ -43,14 +43,14 @@ export default function AddAssetForm({ onClose }) {
           </Button>,
         ]}
       />
-    );
+    )
   }
 
   if (!coin) {
     return (
       <Select
         style={{
-          width: "100%",
+          width: '100%',
         }}
         onSelect={(v) => setCoin(crypto.find((c) => c.id === v))}
         placeholder="Select coin"
@@ -65,12 +65,12 @@ export default function AddAssetForm({ onClose }) {
               style={{ width: 20 }}
               src={option.data.icon}
               atl={option.data.label}
-            />{" "}
+            />{' '}
             {option.data.label}
           </Space>
         )}
       />
-    );
+    )
   }
 
   function onFinish(values) {
@@ -79,24 +79,24 @@ export default function AddAssetForm({ onClose }) {
       amount: values.amount,
       price: values.price,
       date: values.date?.$d ?? new Date(),
-    };
-    assetRef.current = newAsset;
-    setSubmitted(true);
-    addAsset(newAsset);
+    }
+    assetRef.current = newAsset
+    setSubmitted(true)
+    addAsset(newAsset)
   }
 
   function handleAmountChange(value) {
-    const price = form.getFieldValue("price");
+    const price = form.getFieldValue('price')
     form.setFieldsValue({
       total: +(value * price).toFixed(2),
-    });
+    })
   }
 
   function handlePriceChange(value) {
-    const amount = form.getFieldValue("amount");
+    const amount = form.getFieldValue('amount')
     form.setFieldsValue({
       total: +(amount * value).toFixed(2),
-    });
+    })
   }
 
   return (
@@ -127,7 +127,7 @@ export default function AddAssetForm({ onClose }) {
         rules={[
           {
             required: true,
-            type: "number",
+            type: 'number',
             min: 0,
           },
         ]}
@@ -135,12 +135,12 @@ export default function AddAssetForm({ onClose }) {
         <InputNumber
           placeholder="Enter coin amount"
           onChange={handleAmountChange}
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
         />
       </Form.Item>
 
       <Form.Item label="Price" name="price">
-        <InputNumber onChange={handlePriceChange} style={{ width: "100%" }} />
+        <InputNumber onChange={handlePriceChange} style={{ width: '100%' }} />
       </Form.Item>
 
       <Form.Item label="Date & Time" name="date">
@@ -148,7 +148,7 @@ export default function AddAssetForm({ onClose }) {
       </Form.Item>
 
       <Form.Item label="Total" name="total">
-        <InputNumber disabled style={{ width: "100%" }} />
+        <InputNumber disabled style={{ width: '100%' }} />
       </Form.Item>
 
       <Form.Item>
@@ -157,5 +157,5 @@ export default function AddAssetForm({ onClose }) {
         </Button>
       </Form.Item>
     </Form>
-  );
+  )
 }
